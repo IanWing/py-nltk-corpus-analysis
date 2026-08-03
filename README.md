@@ -9,7 +9,7 @@ This project started as a computational linguistics exam assignment in 2020, and
 
 Two independent analysis, run against a pair of text files:
 
-**`stats`** — general linguistic statistics:
+**`stats`** - general linguistic statistics:
 - Sentence and token counts, average sentence/token length
 - Vocabulary growth over the length of the text
 - Verb/noun ratio
@@ -17,7 +17,7 @@ Two independent analysis, run against a pair of text files:
 - Most likely PoS bigrams (conditional probability)
 - Strongest PoS associations (Local Mutual Information)
 
-**`entities`** — named-entity-focused analysis:
+**`entities`** - named-entity-focused analysis:
 - The most frequently mentioned people in each text
 - For each person: related people, locations, verbs, nouns, and dates found in the sentences that mention them
 - The shortest and longest sentence mentioning each person
@@ -41,6 +41,28 @@ python scripts/setup_nltk_data.py
 ```
 
 The setup script downloads all NLTK data resources the project depends on (tokenizer, PoS tagger, NER chunker, word list) in one go.
+
+
+### Troubleshooting
+
+**`ImportError: Blocked import ... from current working directory`**
+during `pip install` or when running the setup script:
+
+This comes from a security feature in recent NLTK versions
+(`nltk/inisec.py`) that blocks imports resolved from the current working
+directory, which includes packages installed inside a `venv/` nested in
+the project folder.
+
+Work around it by disabling the check for your session before running
+any NLTK-related command:
+
+    ```bash
+    # Windows (PowerShell)
+    $env:NLTK_DISABLE_IMPORT_SECURITY = "1"
+
+    # macOS / Linux
+    export NLTK_DISABLE_IMPORT_SECURITY=1
+    ```
 
 ## Usage
 
