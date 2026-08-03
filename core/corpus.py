@@ -2,14 +2,33 @@ import nltk
 from collections import Counter
 
 sent_tokenizer = nltk.data.load("tokenizers/punkt/english.pickle")
+import re
+
+def _normalize_text(text: str) -> str:
+    # Collapse single newlines into spaces, but preserve blank lines
+    text = re.sub(r"(?<!\n)\n(?!\n)", " ", text)
+
+    # Remove markers: _word_ -> word
+    text = re.sub(r"_(\w[\w\s]*?)_", r"\1", text)
+
+    # Remove notes: [Illustration], [Sidenote: ...]
+    text = re.sub(r"\[.*?\]", "", text)
+
+    # Collapse multiple spaces created by the above into one
+    text = re.sub(r" {2,}", " ", text)
+
+    return text.strip()
+
+
 
 
 class Corpus:
     def __init__(self, filepath: str):
         self.filepath = filepath
 
-        with open(filepath, "r", encoding="utf-8") as file:
-            self.text = file.read()
+        with open(filepath, "r", encoding="utf-8") as f:
+            raw_text = f.read()
+        self.text = _normalize_text(raw_text)
 
         self.sentences = sent_tokenizer.tokenize(self.text)
         self.tokens = nltk.word_tokenize(self.text)
