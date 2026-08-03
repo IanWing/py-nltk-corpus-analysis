@@ -56,13 +56,14 @@ the project folder.
 Work around it by disabling the check for your session before running
 any NLTK-related command:
 
-    ```bash
-    # Windows (PowerShell)
-    $env:NLTK_DISABLE_IMPORT_SECURITY = "1"
+```bash
 
-    # macOS / Linux
-    export NLTK_DISABLE_IMPORT_SECURITY=1
-    ```
+# Windows (PowerShell)
+$env:NLTK_DISABLE_IMPORT_SECURITY = "1"
+
+# macOS / Linux
+export NLTK_DISABLE_IMPORT_SECURITY=1
+```
 
 ## Usage
 
